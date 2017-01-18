@@ -2,6 +2,7 @@ Ext.define('Admin.view.gateway.gatewayController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.gateway_gateway',
     _container: undefined,
+    _dispname: undefined,
     init: function() {
         this.control({
         	'gateway_gateway':{
@@ -18,6 +19,19 @@ Ext.define('Admin.view.gateway.gatewayController', {
         	},
 
         });
+    },
+    routes : {
+        ':node' : {
+            action     : 'onUser',
+        }
+    },
+    onUser:function(id){
+      var spinfoses = Ext.ComponentQuery.query("form[name='sensor_sensorSearch_from']");
+      var spinfose = spinfoses[spinfoses.length-1];
+      var keyword = spinfose.down('textfield[name=keyword]');
+      keyword.setValue(this._dispname);
+      var serchbutton = spinfose.up('toolbar').down('button[action=refresh]');
+      serchbutton.fireEvent('click');
     },
 netstylerender:function (cmp) {
   var _store = cmp.getStore();
@@ -163,15 +177,14 @@ potocolrender:function (cmp) {
     },
     _onseesensor :function(grid, rowIndex, colIndex, node, e, record, rowEl){
       this.redirectTo('sensor');
-      var spinfoses = Ext.ComponentQuery.query("form[name='sensor_sensorSearch_from']");
+      this._dispname = record.data.dispname;
+      /*var spinfoses = Ext.ComponentQuery.query("form[name='sensor_sensorSearch_from']");
       var spinfose = spinfoses[spinfoses.length-1];
+
       var keyword = spinfose.down('textfield[name=keyword]');
       keyword.setValue(record.data.dispname);
       var serchbutton = spinfose.up('toolbar').down('button[action=refresh]');
-      console.log(serchbutton);
-      serchbutton.fireEvent('click');
-      //serchbutton.Click();
-
+      serchbutton.fireEvent('click');*/
     },
     /**
      * 删除经销商
