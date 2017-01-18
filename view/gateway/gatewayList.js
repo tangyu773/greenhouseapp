@@ -40,6 +40,11 @@ Ext.define('Admin.view.gateway.gatewayList', {
         	action: 'del',
             tooltip: '删除网关',
             handler: '_onDelete'
+        }, {
+        	iconCls: 'fa icon-fa-Induction fa-lg opear-button',
+        	action: 'sensor',
+            tooltip: '查看传感器',
+            handler: '_onseesensor'
         }]
 	}, {
 		dataIndex : 'compname', text : '所属企业', align : "center", width : 160,

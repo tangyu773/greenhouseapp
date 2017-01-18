@@ -188,7 +188,7 @@ Ext.define('Admin.view.house.houseController', {
           me.dpinsertitems('ph',record,item,'icon-shujuguanlisvg69');
           me.dpinsertitems('rht',record,item,'icon-shidu');
           me.dpinsertitems('sm',record,item,'icon-shidu');
-          me.dpinsertitems('ssc',record,item,'icon-iconchuanglian');
+          me.dpinsertitems('ssc',record,item,'icon-xiangqing');
           me.dpinsertitems('t',record,item,'icon-wenduji');
           me.dpinsertitems('wc',record,item,'icon-caozuoshuibeng');
           //me.dpinsertitems('wcu',record,item,'fa fa-spin fa-refresh');
@@ -269,8 +269,8 @@ Ext.define('Admin.view.house.houseController', {
                       cmp.down('house_tabp').items.items[5].add(item);
                   }
                   if (record.data.fieldname_dp.indexOf("ssc") == 0) { //遮阳帘
-                    cmp.down('house_tabp').setActiveItem(3);
-                      cmp.down('house_tabp').items.items[3].add(item);
+                    cmp.down('house_tabp').setActiveItem(9);
+                      cmp.down('house_tabp').items.items[9].add(item);
                   }
                   if (record.data.fieldname_dp.indexOf("t") == 0) { //气温
                     cmp.down('house_tabp').setActiveItem(4);

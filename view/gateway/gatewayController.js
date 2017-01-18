@@ -161,7 +161,18 @@ potocolrender:function (cmp) {
       date.setValue(record.data.start_date.substring(0,10));
 
     },
+    _onseesensor :function(grid, rowIndex, colIndex, node, e, record, rowEl){
+      this.redirectTo('sensor');
+      var spinfoses = Ext.ComponentQuery.query("form[name='sensor_sensorSearch_from']");
+      var spinfose = spinfoses[spinfoses.length-1];
+      var keyword = spinfose.down('textfield[name=keyword]');
+      keyword.setValue(record.data.dispname);
+      var serchbutton = spinfose.up('toolbar').down('button[action=refresh]');
+      console.log(serchbutton);
+      serchbutton.fireEvent('click');
+      //serchbutton.Click();
 
+    },
     /**
      * 删除经销商
      */

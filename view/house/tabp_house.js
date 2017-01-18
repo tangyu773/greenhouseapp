@@ -43,7 +43,7 @@ Ext.define('Admin.view.house.tabp_house', {
   },
   {
     xtype:'house_tab',
-    title: "水帘",
+    title: "遮阳帘",
   },
   {
     xtype:'house_tab',
