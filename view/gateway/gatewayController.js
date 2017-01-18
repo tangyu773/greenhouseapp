@@ -26,12 +26,14 @@ Ext.define('Admin.view.gateway.gatewayController', {
         }
     },
     onUser:function(id){
+      if(id == 'sensor'){
       var spinfoses = Ext.ComponentQuery.query("form[name='sensor_sensorSearch_from']");
       var spinfose = spinfoses[spinfoses.length-1];
       var keyword = spinfose.down('textfield[name=keyword]');
       keyword.setValue(this._dispname);
       var serchbutton = spinfose.up('toolbar').down('button[action=refresh]');
       serchbutton.fireEvent('click');
+    }
     },
 netstylerender:function (cmp) {
   var _store = cmp.getStore();
