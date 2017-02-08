@@ -8,6 +8,14 @@ Ext.define('Admin.view.house.trigid', {
     resizable: false,
     _ghid:undefined,
     _action:undefined,
+    tools:[{
+    type:'close',
+    qtip: '关闭窗口',
+    handler: function(event, toolEl, panel){
+        panel.up('window').close();
+    }
+}
+],
 
     title: '采集点配置设置',
     constrain: true, //是否限制窗口超出浏览器

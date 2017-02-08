@@ -675,6 +675,9 @@ Ext.define('Admin.view.house.houseController', {
 
     trigid_conf: function(row, raw, trig_name, dis,action) {
         var win = Ext.widget("house_trigid");
+        console.log(win.tools);
+        win.tools[1].setHidden(true);
+
         win.setTitle(dis + '控制设置');
         win.down('button[name=addrule]').action = action;
         win.down('button[name=addrule]')._table_name = trig_name;
