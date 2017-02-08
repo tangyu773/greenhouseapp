@@ -583,8 +583,8 @@ Ext.define('Admin.view.house.houseController', {
 
                 var patt = new RegExp(dd);
                 _store.filter("lsenid", patt);
-                if(record.lsenid != null && record.lsenid != 0 && record.devdir==2){
-                  _store.add({lsenid:record.lsenid,chan_dispname:record.sn},{lsenid: '0',chan_dispname: '置空'});
+                if(record.lsenid != null && record.lsenid != 0 && (record.devdir==2 || record.devdir==3)){
+                  _store.add({lsenid:record.lsenid,chan_dispname:record.sn+'(id:'+record.lsenid+')'},{lsenid: '0',chan_dispname: '置空'});
                 }
                 else{
                   _store.add({lsenid: '0',chan_dispname: '置空'});
