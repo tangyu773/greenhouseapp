@@ -40,6 +40,8 @@ Ext.define('Admin.view.house.houseController', {
         this._loadData();
 
     },
+
+
     /**
      * 初始化搜索参数
      * @private
@@ -66,7 +68,7 @@ Ext.define('Admin.view.house.houseController', {
         listStore.proxy.extraParams = {params: Ext.encode(params)};
         listStore.load();
         this._dp_store = listStore;
-
+        listGrid.plugins[0]._store.load();
         this._dp_monit_store = Ext.create('Admin.store.house.dp_sensor');
         this._dp_monit_store.proxy.url = this._dp_monit_store.proxy.api.senmonit;
         //  var dmparams = {};
@@ -171,7 +173,22 @@ Ext.define('Admin.view.house.houseController', {
           var record = e;
           var item = Ext.create("Admin.view.widgets.WidgetE");
           win.add(item);
-          item.setTitle('大棚名称:    ' + record.data.ghname);
+          var ctl_flag_des = '自动';
+          switch (record.data.ctl_flag) {
+            case 1:
+              ctl_flag_des = '自动';
+              break;
+            case 2:
+                ctl_flag_des = '手动';
+                break;
+            case 4:
+                  ctl_flag_des = '停止';
+                  break;
+            default:
+              break;
+
+          }
+          item.setTitle('大棚名称:    ' + record.data.ghname+'  ('+ctl_flag_des+')');
           item._ghid = record.data.ghid;
           item._xsize = record.data.xsize;
           item._ysize = record.data.ysize;
@@ -280,9 +297,13 @@ Ext.define('Admin.view.house.houseController', {
                     cmp.down('house_tabp').setActiveItem(2);
                       cmp.down('house_tabp').items.items[2].add(item);
                   }
+                  if (record.data.fieldname_dp.indexOf("wcu") == 0) { //
+                    cmp.down('house_tabp').setActiveItem(1);
+                      cmp.down('house_tabp').items.items[1].add(item);
+                  }
                   if (record.data.fieldname_dp.indexOf("wt") == 0) { //水温
-                    cmp.down('house_tabp').setActiveItem(4);
-                      cmp.down('house_tabp').items.items[4].add(item);
+                    cmp.down('house_tabp').setActiveItem(1);
+                      cmp.down('house_tabp').items.items[1].add(item);
                   }
                   if (record.data.fieldname_dp.indexOf("ec") == 0) { //水温
                     cmp.down('house_tabp').setActiveItem(8);
@@ -675,7 +696,6 @@ Ext.define('Admin.view.house.houseController', {
 
     trigid_conf: function(row, raw, trig_name, dis,action) {
         var win = Ext.widget("house_trigid");
-        console.log(win.tools);
         win.tools[1].setHidden(true);
 
         win.setTitle(dis + '控制设置');

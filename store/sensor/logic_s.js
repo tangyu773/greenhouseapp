@@ -4,7 +4,7 @@ Ext.define('Admin.store.sensor.logic_s', {
 
 
 
-    pageSize: 100,
+    pageSize: 500,
     autoLoad:true,
     proxy: {
         api: {

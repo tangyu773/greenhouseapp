@@ -17,7 +17,42 @@ Ext.define('Admin.view.house.houseList', {
 	 viewConfig : {
 		 stripeRows: true
 	 },
+	 plugins: [{
+	 						ptype: "subtable",
+	 						selectRowOnExpand : false,
+	 						_store:Ext.create('Admin.store.gateway.gateway'),
 
+	 						headerWidth: 48,
+	 						columns: [{
+								dataIndex : 'gwid', text : 'id', align : "center", width : 160
+							}, {
+								dataIndex : 'dispname', text : '网关名称', align : "center", width : 160
+							}, {
+								dataIndex : 'netstyle', text : '网络类型', align : "center", width : 120
+							}, {
+								dataIndex : 'ipaddr', text : '服务器地址', align : "center", width : 120
+							}, {
+								dataIndex : 'port', text : '端口', align : "center", width : 120
+							}, {
+								dataIndex : 'frametimeout', text : '数据帧定时器', align : "center", width : 160
+							}, {
+								dataIndex : 'rsptimeout', text : '响应等待定时器', align : "center", width : 160
+							}, {
+								dataIndex : 'potocol', text : '协议', align : "center", width : 160
+							}, {
+								dataIndex : 'coninterval', text : '重连间隔', align : "center", width : 160
+							}],
+	 						getAssociatedRecords: function (record) {
+	 								 var result = Ext.Array.filter(
+	 								 this._store.data.items,
+
+	 								function (r) {
+	 										return r.get('ghid') == record.get('ghid');
+	 								});
+	 								return result;
+
+	 						}
+	 				}],
 //    forceFit: true,
     columnLines:true,
 	columns : [ {
@@ -64,7 +99,25 @@ Ext.define('Admin.view.house.houseList', {
 				 return record.get('areaname');
 			 }
 	}, {
-		dataIndex : 'ghname', text : '大棚名称', align : "center", width : 120
+		dataIndex : 'ghname', text : '大棚名称', align : "center", width : 120,
+		renderer: function(value, metaData, record) {
+			var ctl_flag_des = '自动';
+          switch (record.get('ctl_flag')) {
+            case 1:
+              ctl_flag_des = '自动';
+              break;
+            case 2:
+                ctl_flag_des = '手动';
+                break;
+            case 4:
+                  ctl_flag_des = '停止';
+                  break;
+            default:
+              break;
+
+          }
+                    return record.get('ghname')+'('+ctl_flag_des+')';
+            },
 	}, {
 		dataIndex : 'ghstyle', text : '大棚类型', align : "center", width : 90,
 		renderer : function(v) {
@@ -143,13 +196,11 @@ Ext.define('Admin.view.house.houseList', {
 	}, {
 		dataIndex : 'liquid_fix_trigid', text : '滴灌自动补液控制', align : "center", width : 240,
 		renderer: function(value, metaData, record) {
-
                 if(value=="" || value == undefined || value==0){
                     return "未配置"+"<a href='javascript:;' onclick=''>（配置）</a> ";
                 }else{
                     return "<a href='javascript:;' onclick=''>(更改配置)</a>   "+record.get('fix_dispname');
                 }
-
             },
             listeners: {
        click: 'liquid_fix_trigid_conf'

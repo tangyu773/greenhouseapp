@@ -4,7 +4,7 @@ Ext.define('Admin.store.sensor.sensortl', {
 
 
 
-    pageSize: 25,
+    pageSize: 100,
 
     proxy: {
         api: {

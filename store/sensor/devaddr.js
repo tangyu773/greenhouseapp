@@ -4,7 +4,7 @@ Ext.define('Admin.store.sensor.devaddr', {
 
 
     autoLoad :false,
-    pageSize: 50,
+    pageSize: 100,
 
     proxy: {
         api: {

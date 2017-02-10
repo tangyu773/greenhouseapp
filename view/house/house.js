@@ -7,6 +7,7 @@ Ext.define('Admin.view.house.house', {
     'Admin.view.house.houseList',
 		'Admin.view.house.houseController',
 		'Admin.view.house.houseViewModel',
+		'Admin.store.gateway.gateway',
 		'Admin.view.house.houseAdd',
 		'Admin.store.house.house',
 		'Admin.view.house.housedetail',
@@ -20,7 +21,8 @@ Ext.define('Admin.view.house.house', {
 		'Admin.view.widgets.Widgets',
 		'Admin.view.house.dpdetail',
 		'Admin.view.house.tabp_house',
-		'Admin.view.house.house_tab'
+		'Admin.view.house.house_tab',
+
 	],
 	//cls : 'shadow-panel',
 	controller : 'house_house',
