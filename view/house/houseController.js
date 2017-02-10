@@ -410,7 +410,7 @@ Ext.define('Admin.view.house.houseController', {
 				  },
 				  interval: 60000
 		};
-    //Ext.TaskManager.start(this._task);
+    Ext.TaskManager.start(this._task);
     cmp._task = this._task;
 
 
