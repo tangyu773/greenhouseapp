@@ -1,6 +1,6 @@
-Ext.define('Admin.view.house.tabp_house', {
+Ext.define('Admin.view.house.tabp_housejp', {
 	extend: 'Ext.tab.Panel',
-	xtype: 'house_tabp',
+	xtype: 'house_tabpjp',
 	title: false,
 	activeTab: 1,
 	height: Math.floor(Ext.Element.getViewportHeight()-80),
@@ -35,7 +35,11 @@ Ext.define('Admin.view.house.tabp_house', {
 		  },
 		  {
 		    xtype:'house_tab',
-		    title: "营养液",
+		    title: "滴灌",
+		  },
+		  {
+		    xtype:'house_tab',
+		    title: "土壤干湿度",
 		  }
   ],
 	margin: '0'

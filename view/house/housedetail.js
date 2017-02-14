@@ -23,10 +23,10 @@ Ext.define('Admin.view.house.housedetail', {
         type: 'house_house'
     },
     items: [
-      {
+/*      {
         xtype:'house_tabp'
 
-      }
+      }*/
       // {
       //   xtype:'dp_sensorpanel',
       //   x:5,

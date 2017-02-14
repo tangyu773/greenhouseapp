@@ -5,6 +5,7 @@ Ext.define('Admin.view.widgets.WidgetE', {
     _xsize:undefined,
     _ysize:undefined,
     _compid:undefined,
+    _ghstyle:undefined,
     height:180,
 
     //cls: 'admin-widget-small sale-panel info-card-item shadow-panel',

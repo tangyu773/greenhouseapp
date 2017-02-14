@@ -22,6 +22,7 @@ Ext.define('Admin.view.house.house', {
 		'Admin.view.house.dpdetail',
 		'Admin.view.house.tabp_house',
 		'Admin.view.house.house_tab',
+		'Admin.view.house.tabp_housejp',
 
 	],
 	//cls : 'shadow-panel',

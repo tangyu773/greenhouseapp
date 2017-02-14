@@ -149,6 +149,7 @@ Ext.define('Admin.view.house.houseController', {
           if(cmp == 'co2' || cmp=='lux' || cmp=='ph' || cmp=='rht' || cmp=='sm' || cmp=='t' || cmp=='wt' || cmp=='ec'){
             if(at_num>0){
               at_num = at_num.toFixed(2)/at_count;
+              at_num = at_num.toFixed(2);
             }
             else{
               at_num = '-';
@@ -194,38 +195,68 @@ Ext.define('Admin.view.house.houseController', {
           item._ysize = record.data.ysize;
           item._compid = record.data.compid;
           item._intval = record.data.intval;
+          item._ghstyle = record.data.ghstyle;
 
 
           me.dpinsertitems('at',record,item,'icon-mianbanfengshan ');
-          me.dpinsertitems('co2',record,item,'icon-eryanghuatanhanliang');
-          me.dpinsertitems('liquid',record,item,'icon-guanjiangguanlutaizhang');
-          //me.dpinsertitems('liquidfix',record,item,'icon-guanjiangguanlutaizhang');
-          //me.dpinsertitems('liquidstatus',record,item,'icon-guanjiangguanlutaizhang ');
-          me.dpinsertitems('lux',record,item,'icon-taiyang ');
-          me.dpinsertitems('ph',record,item,'icon-shujuguanlisvg69');
-          me.dpinsertitems('rht',record,item,'icon-shidu');
-          me.dpinsertitems('sm',record,item,'icon-shidu');
-          me.dpinsertitems('ssc',record,item,'icon-xiangqing');
-          me.dpinsertitems('t',record,item,'icon-wenduji');
-          me.dpinsertitems('wc',record,item,'icon-caozuoshuibeng');
-          //me.dpinsertitems('wcu',record,item,'fa fa-spin fa-refresh');
           me.dpinsertitems('wt',record,item,'icon-shuiwendeng');
-          me.dpinsertitems('ec',record,item,'icon-yanfen');
+          me.dpinsertitems('wcu',record,item,'icon-caozuoshuibeng');
+          me.dpinsertitems('lux',record,item,'icon-taiyang ');
+          me.dpinsertitems('t',record,item,'icon-wenduji');
+          me.dpinsertitems('rht',record,item,'icon-shidu');
+          me.dpinsertitems('co2',record,item,'icon-eryanghuatanhanliang');
+          me.dpinsertitems('ssc',record,item,'icon-xiangqing');
           me.dpinsertitems('video',record,item,'icon-shipin');
+
+
+          if(record.data.ghstyle == 1){
+              me.dpinsertitems('wc',record,item,'icon-caozuoshuibeng');
+              me.dpinsertitems('ph',record,item,'icon-shujuguanlisvg69');
+              me.dpinsertitems('ec',record,item,'icon-yanfen');
+
+          }else{
+              me.dpinsertitems('liquid',record,item,'icon-xidishuiwei');
+              me.dpinsertitems('liquidstatus',record,item,'icon-caozuoshuibeng');
+              me.dpinsertitems('sm',record,item,'icon-shidu');
+          }
+
+
+          //me.dpinsertitems('liquidfix',record,item,'icon-guanjiangguanlutaizhang');
+
+
+
+
+
+
+
+
+          //me.dpinsertitems('wcu',record,item,'fa fa-spin fa-refresh');
+
+
+
 
         });
 
     },
     _showhousedetail: function(grid, rowIndex, colIndex, node, e, record, rowEl) {
-        var win = Ext.widget("house_housedetail");
-        //win._ghid = record.get('ghid');
-        this._inithousedetailView(win, record.get('ghid'),record.get('xsize'),record.get('ysize'),record.get('compid'),record.get('intval'));
+
+
+      var win = Ext.widget("house_housedetail");
+      win.removeAll(true);
+      if( record.get('ghstyle') == 1){
+        win.add({xtype:'house_tabp'})
+
+      }else{
+        win.add({xtype:'house_tabpjp'})
+      }
+      this._inithousedetailView(win, record.get('ghid'),record.get('xsize'),record.get('ysize'),record.get('compid'),record.get('intval'));
     },
+
     _dpsenload:function (cmp, ghid,xsize,ysize,compid) {
       var _me = this;
+      var house_tab = cmp.items.items[0];
       _me._dpsensorStore.load({
           callback: function() {
-              //cmp.removeAll(true);
             for (var i = 0; i < _me._dpsensorStore.data.length; i++) {
                   var record = _me._dpsensorStore.getAt(i);
 
@@ -253,66 +284,51 @@ Ext.define('Admin.view.house.houseController', {
                   });
 
 
-                  if (record.data.fieldname_dp.indexOf("at") == 0) { //风机
-                    cmp.down('house_tabp').setActiveItem(0);
-                      cmp.down('house_tabp').items.items[0].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("co") == 0) { //二氧化碳
-                    cmp.down('house_tabp').setActiveItem(6);
-                      cmp.down('house_tabp').items.items[6].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("liquid") == 0) { //液面滴灌高度
-                    cmp.down('house_tabp').setActiveItem(2);
-                      cmp.down('house_tabp').items.items[2].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("liquidfix") == 0) { //液面滴管水位
-                    cmp.down('house_tabp').setActiveItem(2);
-                      cmp.down('house_tabp').items.items[2].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("lux") == 0) { //g光照
-                    cmp.down('house_tabp').setActiveItem(3);
-                      cmp.down('house_tabp').items.items[3].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("ph") == 0) { //ph
-                  cmp.down('house_tabp').setActiveItem(7);
-                      cmp.down('house_tabp').items.items[7].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("rht") == 0) { //空气湿度
-                    cmp.down('house_tabp').setActiveItem(5);
-                      cmp.down('house_tabp').items.items[5].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("sm") == 0) { //土壤水份
-                    cmp.down('house_tabp').setActiveItem(5);
-                      cmp.down('house_tabp').items.items[5].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("ssc") == 0) { //遮阳帘
-                    cmp.down('house_tabp').setActiveItem(9);
-                      cmp.down('house_tabp').items.items[9].add(item);
+
+                  if (record.data.fieldname_dp.indexOf("lux") == 0) { //光照
+                    house_tab.setActiveItem(1);
+                      house_tab.items.items[1].add(item);
                   }
                   if (record.data.fieldname_dp.indexOf("t") == 0) { //气温
-                    cmp.down('house_tabp').setActiveItem(4);
-                      cmp.down('house_tabp').items.items[4].add(item);
+                    house_tab.setActiveItem(2);
+                      house_tab.items.items[2].add(item);
                   }
-                  if (record.data.fieldname_dp.indexOf("wc") == 0) { //
-                    cmp.down('house_tabp').setActiveItem(2);
-                      cmp.down('house_tabp').items.items[2].add(item);
+                  if (record.data.fieldname_dp.indexOf("rht") == 0) { //空气湿度
+                    house_tab.setActiveItem(3);
+                      house_tab.items.items[3].add(item);
                   }
-                  if (record.data.fieldname_dp.indexOf("wcu") == 0) { //
-                    cmp.down('house_tabp').setActiveItem(1);
-                      cmp.down('house_tabp').items.items[1].add(item);
+                  if (record.data.fieldname_dp.indexOf("co2") == 0) { //二氧化碳
+                    house_tab.setActiveItem(4);
+                      house_tab.items.items[4].add(item);
                   }
-                  if (record.data.fieldname_dp.indexOf("wt") == 0) { //水温
-                    cmp.down('house_tabp').setActiveItem(1);
-                      cmp.down('house_tabp').items.items[1].add(item);
-                  }
-                  if (record.data.fieldname_dp.indexOf("ec") == 0) { //水温
-                    cmp.down('house_tabp').setActiveItem(8);
-                      cmp.down('house_tabp').items.items[8].add(item);
+                  if (record.data.fieldname_dp.indexOf("ssc") == 0) { //遮阳帘
+                    house_tab.setActiveItem(5);
+                      house_tab.items.items[5].add(item);
                   }
                   if (record.data.fieldname_dp.indexOf("video") == 0) { //vedio
-                    cmp.down('house_tabp').setActiveItem(10);
-                      cmp.down('house_tabp').items.items[10].add(item);
+                      house_tab.setActiveItem(6);
+                      house_tab.items.items[6].add(item);
                   }
+                  if (record.data.fieldname_dp.indexOf("wc") == 0 || record.data.fieldname_dp.indexOf("ec") == 0 || record.data.fieldname_dp.indexOf("ph") == 0) { //营养液，ph，盐分
+                      house_tab.setActiveItem(7);
+                      house_tab.items.items[7].add(item);
+                  }
+                  if (record.data.fieldname_dp.indexOf("liquid") == 0 || record.data.fieldname_dp.indexOf("liquidfix") == 0 || record.data.fieldname_dp.indexOf("liquidstatus") == 0 || record.data.fieldname_dp.indexOf("liquidph") == 0) { //液面滴灌高度
+                    house_tab.setActiveItem(7);
+                      house_tab.items.items[7].add(item);
+                  }
+                  if (record.data.fieldname_dp.indexOf("sm") == 0) { //土壤干湿度
+                    house_tab.setActiveItem(8);
+                      house_tab.items.items[8].add(item);
+                  }
+                  if (record.data.fieldname_dp.indexOf("at") == 0 || record.data.fieldname_dp.indexOf("wt") == 0 || record.data.fieldname_dp.indexOf("wcu") == 0) { //风机 水温 水帘
+                      house_tab.setActiveItem(0);
+                      house_tab.items.items[0].add(item);
+                  }
+
+
+
+
 
 
 
@@ -322,9 +338,9 @@ Ext.define('Admin.view.house.houseController', {
                   dpsenser.on("click", _me._OnLinkClick, _me);
                   if (record.data.fieldname_dp.indexOf("at") == 0) { //风机
                       Ext.get('dp_sensors_' + i).dom.firstChild.className = 'icon-mianbanfengshan';
-                      cmp.down('house_tabp').items.items[0].add(item);
+                      //house_tab.items.items[0].add(item);
                   }
-                  if (record.data.fieldname_dp.indexOf("co") == 0) { //二氧化碳
+                  if (record.data.fieldname_dp.indexOf("co2") == 0) { //二氧化碳
                       Ext.get('dp_sensors_' + i).dom.firstChild.className = 'icon-eryanghuatanhanliang';
                   }
                   if (record.data.fieldname_dp.indexOf("liquid") == 0) { //液面滴灌高度
@@ -361,13 +377,12 @@ Ext.define('Admin.view.house.houseController', {
                   if (record.data.fieldname_dp.indexOf("ec") == 0) { //水温
                       Ext.get('dp_sensors_' + i).dom.firstChild.className = 'icon-yanfen';
                   }
-                  if (record.data.fieldname_dp.indexOf("video") == 0) { //vedio
-
+                  if (record.data.fieldname_dp.indexOf("video") == 0) { //vedi
                       Ext.get('dp_sensors_' + i).dom.firstChild.className = 'icon-shipin';
                       Ext.get('dp_sensor_' + i).dom.innerHTML='视频1:<a style="color:#e91e63;margin:0;display:inline;text-decoration:none;"  href="javascript:;" onclick="_seevideo('+record.data.lsenid+')" >查看</a>'  ;
                   }
                   if (record.data.s_status == null || record.data.s_status == '0' ) {
-                    Ext.get('dp_sensors_' + i).dom.style.color = '#bbb';
+                      Ext.get('dp_sensors_' + i).dom.style.color = '#bbb';
                   }
                   if ( record.data.s_status == '1') {
                       Ext.get('dp_sensors_' + i).dom.style.color = '#4CAF50';
@@ -387,16 +402,17 @@ Ext.define('Admin.view.house.houseController', {
           }
       })
     },
+
+
     _inithousedetailView: function(cmp, ghid,xsize,ysize,compid,intval,eOpts) {
-      _me = this;
-      this._dpsensorStore = Ext.create('Admin.store.house.dp_sensor');
-      this._dpsensorStore.proxy.extraParams = {
-          params: Ext.encode({
-              ghid: ghid,
-              compid: compid
-          })
-      };
-    //  var fj = cmp.down('house_tabp').items.items[0];
+    _me = this;
+    this._dpsensorStore = Ext.create('Admin.store.house.dp_sensor');
+    this._dpsensorStore.proxy.extraParams = {
+        params: Ext.encode({
+            ghid: ghid,
+            compid: compid
+        })
+    };
 
       this._dpsenload(cmp, ghid,xsize,ysize,compid);
       this._task = {
@@ -795,9 +811,14 @@ Ext.define('Admin.view.house.houseController', {
         this.getView().add(Ext.create(cfg));
     },
     intodp: function(cmp, opts, d) {
-        var win = Ext.widget("house_housedetail");
-        //win._ghid = record.get('ghid');  record.get('xsize'),record.get('ysize'),record.get('compid')
+      var win = Ext.widget("house_housedetail");
         var rcd = d.up('panel');
+        win.removeAll(true);
+        if( rcd._ghstyle == 1){
+          win.add({xtype:'house_tabp'})
+        }else{
+          win.add({xtype:'house_tabpjp'})
+        }
         this._inithousedetailView(win, rcd._ghid,rcd._xsize,rcd._ysize,rcd._compid,rcd._intval);
     },
     /**
