@@ -221,26 +221,10 @@ Ext.define('Admin.view.house.houseController', {
           }
 
 
-          //me.dpinsertitems('liquidfix',record,item,'icon-guanjiangguanlutaizhang');
-
-
-
-
-
-
-
-
-          //me.dpinsertitems('wcu',record,item,'fa fa-spin fa-refresh');
-
-
-
-
         });
 
     },
     _showhousedetail: function(grid, rowIndex, colIndex, node, e, record, rowEl) {
-
-
       var win = Ext.widget("house_housedetail");
       win.removeAll(true);
       if( record.get('ghstyle') == 1){
@@ -250,6 +234,28 @@ Ext.define('Admin.view.house.houseController', {
         win.add({xtype:'house_tabpjp'})
       }
       this._inithousedetailView(win, record.get('ghid'),record.get('xsize'),record.get('ysize'),record.get('compid'),record.get('intval'));
+    },
+    _onseesensor: function(grid, rowIndex, colIndex, node, e, record, rowEl) {
+      var win = Ext.widget("house_gateway_sensor");
+    //  console.log(grid.up('grid').plugins[0]._store.data.items);
+      var g_items = grid.up('grid').plugins[0]._store.data.items;
+
+      var result = Ext.Array.filter(
+      g_items,
+
+     function (r) {
+         return r.get('ghid') == record.get('ghid');
+     });
+     var gw_arr = [];
+     result.forEach(function(r,i) {
+       gw_arr.push(r.data.gwid);
+     });
+     var gwparam = gw_arr.join(',');
+     
+    var a =   document.getElementById("house_gateway_sensor_panel1");
+    a.setAttribute('gatewayid',gwparam)
+
+
     },
 
     _dpsenload:function (cmp, ghid,xsize,ysize,compid) {

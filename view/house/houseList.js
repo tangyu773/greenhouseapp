@@ -77,8 +77,11 @@ Ext.define('Admin.view.house.houseList', {
         	action: 'house',
             tooltip: '查看大棚详情',
             handler: '_showhousedetail',
-
-
+        }, {
+					iconCls: 'fa icon-fa-Induction fa-lg opear-button',
+        	action: 'sensor',
+            tooltip: '查看传感器',
+            handler: '_onseesensor'
         }]
 	}, {
 		dataIndex : 'compid', text : '所属公司', align : "center", width : 160,

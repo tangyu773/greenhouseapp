@@ -21,8 +21,9 @@ Ext.define('Admin.view.order.Order', {
 
 
         layout: 'fit',
+				houseid:'1111',
 
-        id: 'training_grief_rep_tab_4',
+        id: 'training_grief_rep_tabtest_4',
         border: false,
         deferredRender: false,
         //items : new TrainingBriefSummaryItem({sunmmaryId: tariningId}),
