@@ -37,7 +37,7 @@ Ext.define('Admin.view.house.house_gateway_sensor', {
             deferredRender: false,
             //items : new TrainingBriefSummaryItem({sunmmaryId: tariningId}),
             autoScroll : true,
-            html:' <iframe scrolling="auto" frameborder="0" width="100%" height="99%" src="'+'hgs_map.html'+'"> </iframe>'
+            html:' <iframe scrolling="auto" frameborder="0" width="100%" height="99%" src="'+'app/sign_html/hgs_map.html'+'"> </iframe>'
 
 
         }

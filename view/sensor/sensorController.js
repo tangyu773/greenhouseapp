@@ -143,7 +143,7 @@ Ext.define('Admin.view.sensor.sensorController', {
      * 显示添加界面
      */
      addlogicdata:function(cmp){
-  
+
       cmp.getEl().swallowEvent([
                       'mousedown', 'mouseup', 'click',
                       'contextmenu', 'mouseover', 'mouseout',
@@ -263,28 +263,11 @@ gw_change:function(c,nv,ov,opts){
   if(comb.cflag === 1){
      comb.setValue(null);
   }
-  //  comb.setValue(null);
-
-
         if(c.isValid())
         {
             comb.setReadOnly(false) ;
             comb.getStore().proxy.extraParams = {gwid:nv };
             comb.getStore().load();
-
-          /*  Ext.Ajax.request({
-              url: 'sys/product/searchdevaddr.action',
-              params: {gwid:nv },
-              success: function(response, options){
-                var jsonObj = Ext.JSON.decode(response.responseText);
-
-                comb.getStore().loadData(jsonObj);
-
-
-              }
-            });*/
-
-
         }
 
 },
