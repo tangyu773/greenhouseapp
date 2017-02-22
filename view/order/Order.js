@@ -28,7 +28,7 @@ Ext.define('Admin.view.order.Order', {
         deferredRender: false,
         //items : new TrainingBriefSummaryItem({sunmmaryId: tariningId}),
         autoScroll : true,
-        html:' <iframe scrolling="auto" frameborder="0" width="100%" height="99%" src="'+'effectScatter-map.html'+'"> </iframe>'
+        html:' <iframe scrolling="auto" frameborder="0" width="100%" height="99%" src="'+'app/sing_html/effectScatter-map.html'+'"> </iframe>'
 
     }
 
