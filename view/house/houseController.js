@@ -8,6 +8,7 @@ Ext.define('Admin.view.house.houseController', {
     _dp_store: undefined,
     _dp_monit_store: undefined,
     _task:undefined,
+    _detailtask:undefined,
     init: function() {
         this.control({
             'house_house': {
@@ -128,6 +129,7 @@ Ext.define('Admin.view.house.houseController', {
         patt = new RegExp('^'+cmp);
       }
       var patt1 = new RegExp('^'+record.data.ghid+'$');
+
       this._dp_monit_store.filter("field_name", patt);
       this._dp_monit_store.filter("ghid", patt1);
       var records = this._dp_monit_store.data.items;
@@ -144,7 +146,7 @@ Ext.define('Admin.view.house.houseController', {
                 at_num += parseFloat(idata.cv);
                 at_count++;
               }
-              fjhtml = fjhtml + '[' + idata.dp_dispname + '] - [' + idata.batchid + '] - [' + idata.cv + ']<br>';
+              fjhtml = fjhtml + '[' + idata.dp_dispname + '] - [' + idata.batchid + '] - [' + idata.dv + ']<br>';
           });
           if(cmp == 'co2' || cmp=='lux' || cmp=='ph' || cmp=='rht' || cmp=='sm' || cmp=='t' || cmp=='wt' || cmp=='ec'){
             if(at_num>0){
@@ -165,10 +167,26 @@ Ext.define('Admin.view.house.houseController', {
           });
       };
     },
-    _showdapengdetile: function(cmp) {
-
+    _showdapengdetile_task:function(cmp){
+      var me = this;
+      var win = Ext.widget("house_dpdetail");
+      this._showdapengdetile(cmp,win);
+      this._detailtask = {
+        run: function(){
+          var now = new Date();
+            var av = now.getMinutes()%4;
+            if(now.getMinutes()%4 == 0){
+                me._showdapengdetile(cmp,win);
+            };
+          },
+          interval: 60000
+      };
+      Ext.TaskManager.start(this._detailtask);
+      win._detailtask = this._detailtask;
+    },
+    _showdapengdetile: function(cmp,win) {
         var me = this;
-        var win = Ext.widget("house_dpdetail");
+        this._dp_monit_store.load();
         win.removeAll(true);
         this._dp_store.data.items.forEach(function(e){
           var record = e;
@@ -213,7 +231,6 @@ Ext.define('Admin.view.house.houseController', {
               me.dpinsertitems('wc',record,item,'icon-caozuoshuibeng');
               me.dpinsertitems('ph',record,item,'icon-shujuguanlisvg69');
               me.dpinsertitems('ec',record,item,'icon-yanfen');
-
           }else{
               me.dpinsertitems('liquid',record,item,'icon-xidishuiwei');
               me.dpinsertitems('liquidstatus',record,item,'icon-caozuoshuibeng');
@@ -226,40 +243,42 @@ Ext.define('Admin.view.house.houseController', {
     },
     _showhousedetail: function(grid, rowIndex, colIndex, node, e, record, rowEl) {
       var win = Ext.widget("house_housedetail");
-      win.removeAll(true);
+      /*win.removeAll(true);
       if( record.get('ghstyle') == 1){
         win.add({xtype:'house_tabp'})
 
       }else{
         win.add({xtype:'house_tabpjp'})
-      }
-      this._inithousedetailView(win, record.get('ghid'),record.get('xsize'),record.get('ysize'),record.get('compid'),record.get('intval'));
+      }*/
+      this._inithousedetailView(win, record.get('ghid'),record.get('xsize'),record.get('ysize'),record.get('compid'),record.get('intval'),record.get('ghstyle'));
     },
-    _onseesensor: function(grid, rowIndex, colIndex, node, e, record, rowEl) {
-      var win = Ext.widget("house_gateway_sensor");
-    //  console.log(grid.up('grid').plugins[0]._store.data.items);
-      var g_items = grid.up('grid').plugins[0]._store.data.items;
+_onseesensor: function(grid, rowIndex, colIndex, node, e, record, rowEl) {
+    var win = Ext.widget("house_gateway_sensor");
+    var g_items = grid.up('grid').plugins[0]._store.data.items;
 
-      var result = Ext.Array.filter(
-      g_items,
-
-     function (r) {
-         return r.get('ghid') == record.get('ghid');
-     });
+    var result = Ext.Array.filter(g_items,function (r) {
+       return r.get('ghid') == record.get('ghid');
+    });
      var gw_arr = [];
      result.forEach(function(r,i) {
        gw_arr.push(r.data.gwid);
      });
      var gwparam = gw_arr.join(',');
-     
+
     var a =   document.getElementById("house_gateway_sensor_panel1");
     a.setAttribute('gatewayid',gwparam)
 
 
     },
 
-    _dpsenload:function (cmp, ghid,xsize,ysize,compid) {
+    _dpsenload:function (cmp, ghid,xsize,ysize,compid,ghstyle) {
       var _me = this;
+      cmp.removeAll(true);
+      if( ghstyle == 1){
+        cmp.add({xtype:'house_tabp'})
+      }else{
+        cmp.add({xtype:'house_tabpjp'})
+      }
       var house_tab = cmp.items.items[0];
       _me._dpsensorStore.load({
           callback: function() {
@@ -410,8 +429,9 @@ Ext.define('Admin.view.house.houseController', {
     },
 
 
-    _inithousedetailView: function(cmp, ghid,xsize,ysize,compid,intval,eOpts) {
+    _inithousedetailView: function(cmp, ghid,xsize,ysize,compid,intval,ghstyle,eOpts) {
     _me = this;
+
     this._dpsensorStore = Ext.create('Admin.store.house.dp_sensor');
     this._dpsensorStore.proxy.extraParams = {
         params: Ext.encode({
@@ -420,13 +440,15 @@ Ext.define('Admin.view.house.houseController', {
         })
     };
 
-      this._dpsenload(cmp, ghid,xsize,ysize,compid);
+      this._dpsenload(cmp, ghid,xsize,ysize,compid,ghstyle);
       this._task = {
 				run: function(){
           var now = new Date();
           if(intval != null && intval != '' && intval != 0 && intval != '0'){
+            var av = now.getMinutes()%(parseInt(intval)+2);
+
           if((now.getMinutes()%(parseInt(intval)+2)) == 0){
-              _me._dpsenload(cmp, ghid,xsize,ysize,compid);
+              _me._dpsenload(cmp, ghid,xsize,ysize,compid,ghstyle);
             };
         }
 				  },
@@ -819,21 +841,22 @@ Ext.define('Admin.view.house.houseController', {
     intodp: function(cmp, opts, d) {
       var win = Ext.widget("house_housedetail");
         var rcd = d.up('panel');
-        win.removeAll(true);
+        /*win.removeAll(true);
         if( rcd._ghstyle == 1){
           win.add({xtype:'house_tabp'})
         }else{
           win.add({xtype:'house_tabpjp'})
-        }
-        this._inithousedetailView(win, rcd._ghid,rcd._xsize,rcd._ysize,rcd._compid,rcd._intval);
+        }*/
+        this._inithousedetailView(win, rcd._ghid,rcd._xsize,rcd._ysize,rcd._compid,rcd._intval,rcd._ghstyle);
     },
     /**
      * 初始化权限
      */
      _stop_stask:function (cmp) {
-
        Ext.TaskManager.stop(cmp._task);//关闭定时器
-
+     },
+     _stop_detail_stask:function (cmp) {
+       Ext.TaskManager.stop(cmp._detailtask);//关闭定时器
      },
     initPermission: function(cmp) {
         var me = this;

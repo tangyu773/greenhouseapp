@@ -295,7 +295,7 @@ Ext.define('Admin.view.house.houseList', {
 	                    text : '大棚视图',
 	                    iconCls : 'icon-dp',
 											listeners: {
-						                        click: '_showdapengdetile'
+						                        click: '_showdapengdetile_task'
 						                    }
 					} ]
 			}]
