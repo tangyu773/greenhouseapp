@@ -296,7 +296,7 @@ _onseesensor: function(grid, rowIndex, colIndex, node, e, record, rowEl) {
                   '<br>传感器状态：'+record.data.status_dispname+
                   ' " style="background:transparent;color:#3ecb7d;height:54px;text-align:center;padding:3px;line-height:15px;font-size:24px;"><i style="font-size:48px;" class="icon-wendu"></i> </div>' +
                       '<div style="float: left;">' +
-                      '<div style="text-align:center;line-height:12px;min-width:48px;"><a  style="text-decoration:none;line-height:25px" href="javascript:void(0);"  id="dp_sensor_' + i + '">' + record.data.dp_dispname + '<br><h2 style="font-size:14px;color:#388E3C;margin:0;display:inline;">' + record.data.dv + '</h2></a></div>' +
+                      '<div style="text-align:center;line-height:12px;min-width:48px;"><a  style="text-decoration:none;line-height:25px" href="javascript:void(0);"  id="dp_sensor_' + i + '">' + record.data.dp_dispname + '<br><h2 style="font-size:14px;color:#388E3C;margin:0;display:inline;">' + record.data.dv + '</h2><br>'+record.data.batchid.substr(0,10)+'<br>'+record.data.batchid.substr(11,8)+'</a></div>' +
                       '</div>';
                   var item = Ext.create("Admin.view.dashboard.dp_sensor", {
                       //  id:'dp_sensor_'+i,
